@@ -1,23 +1,137 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <title>Contato</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contato - Equipe 5 Portfolio</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Estilização básica dentro do HTML para teste rápido */
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 0 20px;
+      background: #f4f4f4;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      font-size: 1rem;
+    }
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background-color: #007BFF;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .error {
+      color: red;
+      font-size: 0.9rem;
+      margin-top: 5px;
+      display: none;
+    }
+  </style>
 </head>
 <body>
   <h1>Entre em Contato</h1>
-  <form>
-    <label>Nome:</label>
-    <input type="text" required><br>
-    <label>Email:</label>
-    <input type="email" required><br>
-    <label>Assunto:</label>
-    <input type="text" required><br>
-    <label>Telefone:</label>
-    <input type="tel"><br>
+  <form id="contactForm" novalidate>
+    <label for="name">Nome:</label>
+    <input type="text" id="name" name="name" placeholder="Seu nome completo" required />
+    <div class="error" id="nameError">Por favor, informe seu nome.</div>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" placeholder="exemplo@dominio.com" required />
+    <div class="error" id="emailError">Por favor, informe um email válido.</div>
+
+    <label for="subject">Assunto:</label>
+    <input type="text" id="subject" name="subject" placeholder="Assunto da mensagem" required />
+    <div class="error" id="subjectError">Por favor, informe o assunto.</div>
+
+    <label for="phone">Telefone:</label>
+    <input type="tel" id="phone" name="phone" placeholder="(xx) xxxx-xxxx ou (xx) xxxxx-xxxx" pattern="^\(?\d{2}\)?[\s-]?\d{4,5}-?\d{4}$" />
+    <div class="error" id="phoneError">Formato de telefone inválido.</div>
+
     <button type="submit">Enviar</button>
   </form>
+
+  <script>
+    const form = document.getElementById('contactForm');
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      // Esconder todos erros antes de validar
+      document.querySelectorAll('.error').forEach(el => el.style.display = 'none');
+
+      let valid = true;
+
+      // Validação nome
+      const name = form.name.value.trim();
+      if (name === '') {
+        document.getElementById('nameError').style.display = 'block';
+        valid = false;
+      }
+
+      // Validação email
+      const email = form.email.value.trim();
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(email)) {
+        document.getElementById('emailError').style.display = 'block';
+        valid = false;
+      }
+
+      // Validação assunto
+      const subject = form.subject.value.trim();
+      if (subject === '') {
+        document.getElementById('subjectError').style.display = 'block';
+        valid = false;
+      }
+
+      // Validação telefone (opcional)
+      const phone = form.phone.value.trim();
+      if (phone !== '') {
+        const phonePattern = /^\(?\d{2}\)?[\s-]?\d{4,5}-?\d{4}$/;
+        if (!phonePattern.test(phone)) {
+          document.getElementById('phoneError').style.display = 'block';
+          valid = false;
+        }
+      }
+
+      if (valid) {
+        alert('Formulário enviado com sucesso! Obrigado pelo contato.');
+        form.reset();
+      }
+    });
+  </script>
 </body>
 </html>
